@@ -9,7 +9,7 @@ export function App() {
             </h1>
 
             <h2 className="pt-2 text-xs">
-                Accessing atom content from hook and store
+                Accessing atom content from hook and global store
             </h2>
             <Demo1 className="p-4 border border-gray-200/30 rounded-md" />
 

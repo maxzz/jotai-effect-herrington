@@ -7,7 +7,7 @@ import { classNames } from "../utils";
 export function Demo2({ className, ...rest }: ComponentPropsWithoutRef<"div">) {
     const [userID, setUserID] = useAtom(userIDStateAtom);
     return (
-        <div className={classNames("flex items-center gap-2", className)} {...rest}>
+        <div className={classNames("flex items-center gap-4", className)} {...rest}>
             <select className="px-4 py-2 text-gray-800 bg-gray-200  rounded-md"
                 value={userID}
                 onChange={(e) => setUserID(Number(e.target.value))}
@@ -17,7 +17,7 @@ export function Demo2({ className, ...rest }: ComponentPropsWithoutRef<"div">) {
                 <option value={3}>User 3</option>
             </select>
 
-            <Suspense fallback={<p>Loading...</p>}>
+            <Suspense fallback={<p></p>}>
                 <User />
             </Suspense>
         </div>
@@ -28,8 +28,8 @@ function User() {
     const userID = useAtomValue(userIDStateAtom);
     const userPromise = useAtomValue(userQueryAtom(userID));
     return (
-        <p className="flex items-center gap-2">
-            <span className="text-orange-700">{userPromise?.name}</span>is loaded user name from json.
+        <p className="flex items-center gap-1">
+            <span className="text-green-500">{userPromise?.name}</span>is loaded user name from json.
         </p>
     );
 }
