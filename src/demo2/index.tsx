@@ -43,17 +43,13 @@ const userIDStateAtom = withAtomEffect(atom(1),
 
 const userQueryAtom = atomFamily((id: number) =>
     atom(async () => {
-        // let path = '/';
-        // const isLocalhost = window.location.hostname === "localhost";
-        // if (!isLocalhost) {
-        //     path = location.pathname;
-        // }
-
-        const path = location.pathname;
-        const url = `${path}/${id}.json`.replaceAll('//', '/');
-        console.log(`url "${url}"`);
-        
-        const response = await fetch(url).then((res) => res.json());
-        return response;
+        try {
+            const url = `${location.pathname}/${id}.json`.replaceAll('//', '/'); // "/1.json" (localhost) vs. "/jotai-effect-herrington/1.json" (GitHub)
+            const response = await fetch(url).then((res) => res.json());
+            return response;
+        } catch (error) {
+            console.error(error);
+            return { name: `Unknown user: ${id}` };
+        }
     })
 );
