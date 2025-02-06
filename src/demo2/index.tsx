@@ -43,7 +43,17 @@ const userIDStateAtom = withAtomEffect(atom(1),
 
 const userQueryAtom = atomFamily((id: number) =>
     atom(async () => {
-        const response = await fetch(`/${id}.json`).then((res) => res.json());
+        // let path = '/';
+        // const isLocalhost = window.location.hostname === "localhost";
+        // if (!isLocalhost) {
+        //     path = location.pathname;
+        // }
+
+        const path = location.pathname;
+        const url = `${path}/${id}.json`.replaceAll('//', '/');
+        console.log(`url "${url}"`);
+        
+        const response = await fetch(url).then((res) => res.json());
         return response;
     })
 );
