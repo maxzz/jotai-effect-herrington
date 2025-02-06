@@ -2,64 +2,66 @@ import { Suspense } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { atomFamily } from "jotai/utils";
 import { withAtomEffect } from "jotai-effect";
-
 import { store } from "./store";
 
 export function App() {
 
-    const [count, setCount] = useAtom(countState);
-    const doubleCount = useAtomValue(doubleCountState);
+    const [count, setCount] = useAtom(countStateAtom);
+    const doubleCount = useAtomValue(doubleCountStateAtom);
+    const [userID, setUserID] = useAtom(userIDStateAtom);
 
-    const [userID, setUserID] = useAtom(userIDState);
+    return (
+        <div className="text-sm flex flex-col gap-2">
+            <h1 className="text-sm font-bold">Jotai</h1>
 
-    return (<>
-        <h1 className="text-2xl font-bold">Jotai</h1>
+            <div className="flex items-center gap-2">
+                <button className="px-4 py-2 text-white bg-blue-500 rounded-md"
+                    onClick={() => setCount((count) => count + 1)}
+                >
+                    count is {count}
+                </button>
+                <p>double count is {doubleCount}</p>
+            </div>
 
-        <div className="flex gap-2 items-center mt-4">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                onClick={() => setCount((count) => count + 1)}
-            >
-                count is {count}
-            </button>
-            <p>double count is {doubleCount}</p>
+            <div>
+                <button className="px-4 py-2 text-white bg-red-500 rounded-md"
+                    onClick={() => {
+                        store.set(countStateAtom, (c) => c + 1);
+                    }}
+                >
+                    Externally Increment
+                </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+                <select className="px-4 py-2 text-gray-800 bg-gray-200  rounded-md"
+                    value={userID}
+                    onChange={(e) => setUserID(Number(e.target.value))}
+                >
+                    <option value={1}>User 1</option>
+                    <option value={2}>User 2</option>
+                    <option value={3}>User 3</option>
+                </select>
+
+                <Suspense fallback={<p>Loading...</p>}>
+                    <User />
+                </Suspense>
+            </div>
         </div>
-
-        <div>
-            <button className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md"
-                onClick={() => {
-                    store.set(countState, (c) => c + 1);
-                }}
-            >
-                Externally Increment
-            </button>
-        </div>
-
-        <div className="flex gap-2 items-center mt-4">
-            <select className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md"
-                value={userID}
-                onChange={(e) => setUserID(Number(e.target.value))}
-            >
-                <option value={1}>User 1</option>
-                <option value={2}>User 2</option>
-                <option value={3}>User 3</option>
-            </select>
-
-            <Suspense fallback={<p>Loading...</p>}>
-                <User />
-            </Suspense>
-        </div>
-    </>);
+    );
 }
 
-const countState = atom(0);
-const doubleCountState = atom((get) => get(countState) * 2);
+const countStateAtom = atom(0);
+const doubleCountStateAtom = atom((get) => get(countStateAtom) * 2);
 
-const userIDState = withAtomEffect(atom(1), (get) => {
-    const userID = get(userIDState);
-    console.log(`userID set to ${userID}`);
-});
+const userIDStateAtom = withAtomEffect(atom(1),
+    (get) => {
+        const userID = get(userIDStateAtom);
+        console.log(`userID set to ${userID}`);
+    }
+);
 
-const userQuery = atomFamily((id: number) =>
+const userQueryAtom = atomFamily((id: number) =>
     atom(async () => {
         const response = await fetch(`/${id}.json`).then((res) => res.json());
         return response;
@@ -67,8 +69,11 @@ const userQuery = atomFamily((id: number) =>
 );
 
 function User() {
-    const userID = useAtomValue(userIDState);
-    const userPromise = useAtomValue(userQuery(userID));
-
-    return <p>user is {userPromise?.name}</p>;
+    const userID = useAtomValue(userIDStateAtom);
+    const userPromise = useAtomValue(userQueryAtom(userID));
+    return (
+        <p className="flex items-center gap-2">
+            <span className="text-orange-700">{userPromise?.name}</span>is loaded user name from json.
+        </p>
+    );
 }
