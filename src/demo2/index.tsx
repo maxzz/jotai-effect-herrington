@@ -1,12 +1,13 @@
-import { Suspense } from "react";
+import { type ComponentPropsWithoutRef, Suspense } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { atomFamily } from "jotai/utils";
 import { withAtomEffect } from "jotai-effect";
+import { classNames } from "../utils";
 
-export function Demo2() {
+export function Demo2({ className, ...rest }: ComponentPropsWithoutRef<"div">) {
     const [userID, setUserID] = useAtom(userIDStateAtom);
     return (
-        <div className="flex items-center gap-2">
+        <div className={classNames("flex items-center gap-2", className)} {...rest}>
             <select className="px-4 py-2 text-gray-800 bg-gray-200  rounded-md"
                 value={userID}
                 onChange={(e) => setUserID(Number(e.target.value))}
