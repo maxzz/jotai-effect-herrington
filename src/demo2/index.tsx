@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { atomFamily } from "jotai/utils";
 import { withAtomEffect } from "jotai-effect";
-import { store } from "../store";
 
 export function Demo2() {
     const [userID, setUserID] = useAtom(userIDStateAtom);
@@ -24,6 +23,16 @@ export function Demo2() {
     );
 }
 
+function User() {
+    const userID = useAtomValue(userIDStateAtom);
+    const userPromise = useAtomValue(userQueryAtom(userID));
+    return (
+        <p className="flex items-center gap-2">
+            <span className="text-orange-700">{userPromise?.name}</span>is loaded user name from json.
+        </p>
+    );
+}
+
 const userIDStateAtom = withAtomEffect(atom(1),
     (get) => {
         const userID = get(userIDStateAtom);
@@ -37,13 +46,3 @@ const userQueryAtom = atomFamily((id: number) =>
         return response;
     })
 );
-
-function User() {
-    const userID = useAtomValue(userIDStateAtom);
-    const userPromise = useAtomValue(userQueryAtom(userID));
-    return (
-        <p className="flex items-center gap-2">
-            <span className="text-orange-700">{userPromise?.name}</span>is loaded user name from json.
-        </p>
-    );
-}
