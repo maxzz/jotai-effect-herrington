@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       jotai:
-        specifier: ^2.11.0
-        version: 2.11.3(@types/react@18.3.18)(react@18.3.1)
+        specifier: ^2.12.2
+        version: 2.12.2(@types/react@18.3.18)(react@18.3.1)
       jotai-effect:
         specifier: ^1.0.7
-        version: 1.1.6(jotai@2.11.3(@types/react@18.3.18)(react@18.3.1))
+        version: 1.1.6(jotai@2.12.2(@types/react@18.3.18)(react@18.3.1))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -746,8 +746,8 @@ packages:
     peerDependencies:
       jotai: '>=2.5.0'
 
-  jotai@2.11.3:
-    resolution: {integrity: sha512-B/PsewAQ0UOS5e2+TTWegUPQ3SCLPCjPY24LYUjfn2EorGlluTA2dFjVLgF1+xHLjK9Jit3y5mKHyMG3Xq/GZg==}
+  jotai@2.12.2:
+    resolution: {integrity: sha512-oN8715y7MkjXlSrpyjlR887TOuc/NLZMs9gvgtfWH/JP47ChwO0lR2ijSwBvPMYyXRAPT+liIAhuBavluKGgtA==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=17.0.0'
@@ -1759,11 +1759,11 @@ snapshots:
   jiti@2.4.2:
     optional: true
 
-  jotai-effect@1.1.6(jotai@2.11.3(@types/react@18.3.18)(react@18.3.1)):
+  jotai-effect@1.1.6(jotai@2.12.2(@types/react@18.3.18)(react@18.3.1)):
     dependencies:
-      jotai: 2.11.3(@types/react@18.3.18)(react@18.3.1)
+      jotai: 2.12.2(@types/react@18.3.18)(react@18.3.1)
 
-  jotai@2.11.3(@types/react@18.3.18)(react@18.3.1):
+  jotai@2.12.2(@types/react@18.3.18)(react@18.3.1):
     optionalDependencies:
       '@types/react': 18.3.18
       react: 18.3.1
